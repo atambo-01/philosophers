@@ -1,0 +1,50 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: atambo <marvin@42.fr>                      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/11/16 14:27:56 by atambo            #+#    #+#              #
+#    Updated: 2024/11/16 14:27:58 by atambo           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+SOURCES         =
+			
+CC              = cc
+CFLAGS          = -Wall -Wextra -Werror
+NAME            = 
+OBJS            = $(SOURCES:.c=.o)
+INCLUDES        = -Iincludes
+
+SUBDIRS         = ./ft_printf ./libft
+
+LIBS            = ./ft_printf/ft_printf.a ./libft/libft.a
+
+all: submake $(NAME)
+
+submake:
+	@for dir in $(SUBDIRS); do \
+		$(MAKE) -C $$dir; \
+	done
+
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME) $(LIBS)
+
+clean:
+	rm -f $(OBJS)
+	@for dir in $(SUBDIRS); do \
+		$(MAKE) -C $$dir clean; \
+	done
+
+fclean: clean
+	rm -f $(NAME)
+	@for dir in $(SUBDIRS); do \
+		$(MAKE) -C $$dir fclean; \
+	done
+
+re: fclean all
+
+.PHONY: all submake clean fclean re
+
