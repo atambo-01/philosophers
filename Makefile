@@ -10,11 +10,12 @@
 #                                                                              #
 # **************************************************************************** #
 
-SOURCES         =
+SOURCES         =	src/main.c \
+					src/init_philos.c \
 			
 CC              = cc
-CFLAGS          = -Wall -Wextra -Werror
-NAME            = 
+CFLAGS          =  -g -pthread
+NAME            = philosophers
 OBJS            = $(SOURCES:.c=.o)
 INCLUDES        = -Iincludes
 
