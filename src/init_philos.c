@@ -14,8 +14,30 @@
 #include "../libft/libft.h"
 #include "../inc/philosophers.h"
 
+void	data_init(char **av, t_data *data)
+{
+	struct timeval tv;
 
-void make_philos(t_phi **phi, t_data *data)
+	if (av[1] && av[2] && av[3] && av[4])
+	{
+		data->phi_n = ft_atoi(av[1]);
+		data->ttd = ft_atoi(av[2]);
+		data->tte = ft_atoi(av[3]);
+		data->tts = ft_atoi(av[4]);
+	}
+	else
+		// end_simulation();
+	if (av[5])
+		data->e_min = ft_atoi(av[5]);
+	else
+		// end_simulation();
+	if (data->phi_n <= 0 || data->ttd <= 0 || data->tte <= 0 || data->tts <= 0
+			|| data->e_min <= 0)
+		// end_simulation();
+	gettimeofday(&tv, NULL);
+	data->start = tv;
+}
+void	make_philos(t_phi **phi, t_data *data)
 {
     int i;
 
