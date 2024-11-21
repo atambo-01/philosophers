@@ -14,6 +14,11 @@
 #include "../libft/libft.h"
 #include "../inc/philosophers.h"
 
+void	end_simulation()
+{
+	exit(1);
+}
+
 void	data_init(char **av, t_data *data)
 {
 	struct timeval tv;
@@ -24,16 +29,18 @@ void	data_init(char **av, t_data *data)
 		data->ttd = ft_atoi(av[2]);
 		data->tte = ft_atoi(av[3]);
 		data->tts = ft_atoi(av[4]);
+		if (data->phi_n <= 0 || data->ttd <= 0 ||
+				data->tte <= 0 || data->tts <= 0)
+			end_simulation();
 	}
 	else
-		// end_simulation();
+		end_simulation();
 	if (av[5])
+	{	
 		data->e_min = ft_atoi(av[5]);
-	else
-		// end_simulation();
-	if (data->phi_n <= 0 || data->ttd <= 0 || data->tte <= 0 || data->tts <= 0
-			|| data->e_min <= 0)
-		// end_simulation();
+		if (data->phi_n <= 0)
+			end_simulation();
+	}
 	gettimeofday(&tv, NULL);
 	data->start = tv;
 }
@@ -47,8 +54,11 @@ void	make_philos(t_phi **phi, t_data *data)
     (*phi)->doa = 1;
     (*phi)->data = data;
     (*phi)->next = NULL;
-    i++;
+	(*phi)->l_f = NULL;
+	(*phi)->r_f = ft_malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init((*phi)->r_f, NULL);
     t_phi *current = *phi;
+	i++;
     while (i <= data->phi_n)
     {
         current->next = ft_malloc(sizeof(t_phi));
@@ -57,21 +67,20 @@ void	make_philos(t_phi **phi, t_data *data)
         current->doa = 1;
         current->data = data;
         current->next = NULL;
-        i++;
+		i++;
     }
-    current->next = *phi;
-    init_forks(*phi);
+	if(data->phi_n > 1)
+    {	
+		current->next = *phi;
+    	init_forks(*phi);
+	}
 }
-
 
 void	init_forks(t_phi *phi)
 {
 	t_phi *prev;
 	t_phi *first;
 
-	phi->l_f = NULL;
-	phi->r_f = ft_malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(phi->r_f, NULL);
 	first = phi;
 	prev = phi;
 	phi = phi->next;
@@ -99,11 +108,12 @@ void	print_philos(t_phi *phi)
 	{
 		ft_printf("phi->id = %d", phi->id);
 		ft_printf("\tl_f = %p\tr_f = %p", phi->l_f, phi->r_f);
-		if (phi->r_f == phi->next->l_f)
+		if (phi->next && phi->r_f == phi->next->l_f)
 			ft_printf("\tcorrect !!");
 		ft_printf("\n");
-		phi = phi->next;
-		usleep(90000);
+		if (phi->next)
+			phi = phi->next;
+		// usleep(90000);
 		i++;
 	}
 }
