@@ -23,38 +23,27 @@ typedef struct s_data t_data;
 
 typedef struct s_data
 {
-    struct timeval  start;
-    unsigned int    phi_n;
-    unsigned int    ttd;
-    unsigned int    tte;
-    unsigned int    tts;
-    unsigned int    e_min;
-    pthread_mutex_t *mutex;
-    t_phi           *phi;  // Now you can use t_phi
-} t_data;
+    atomic struct timeval   start;
+    atomic unsigned int     phi_n;
+    atomic unsigned int     ttd;
+    atomic unsigned int     tte;
+    atomic unsigned int     tts;
+    atomic unsigned int     e_min;
+    pthread_mutex_t         *mutex;
+    t_phi                   *phi;
+}   t_data;
 
 typedef struct s_phi
 {
-    pthread_t       thread;
-    int             id;
-    struct timeval  death_t;
-    unsigned int    doa;
-    t_data          *data;
-    pthread_mutex_t *r_f;
-    pthread_mutex_t *l_f;     
-    t_phi           *next;
-} t_phi;
-
-
-// {
-// 	dt -> death_time
-// 	t -> thread
-// }
-
-// death_time = current_time + ttd;
-// if (current_time >= death_time)
-// 	dead = 1;
-
+    pthread_t               thread;
+    atomic int              id;
+    atomic struct timeval   death_t;
+    atomic unsigned int     doa;
+    t_data                  *data;  
+    pthread_mutex_t         *r_f;
+    pthread_mutex_t         *l_f;     
+    t_phi                   *next;
+}   t_phi;
 
 //init_philos.c
 void	make_philos(t_phi **phi, t_data *data);
