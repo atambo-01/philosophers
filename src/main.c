@@ -45,8 +45,11 @@ int main(int ac, char **av)
 		data_init(av, &data);
 		phi = NULL;
 		make_philos(&phi, &data);
+        set_death_t(phi);
 		// print_philos(phi);
 		first = NULL;
+        add_usec(&(phi->death_t), 60);
+        printf("\n%lu\n", phi->death_t.tv_usec - phi->next->death_t.tv_usec);
 		while(phi != first)
 		{
 			if (pthread_create(&(phi->thread), NULL, function, (phi)) != 0)
@@ -61,8 +64,6 @@ int main(int ac, char **av)
 				phi = phi->next;
 		}
 
-        
-
         first = NULL;
 		while(phi != first)
 		{
@@ -72,6 +73,7 @@ int main(int ac, char **av)
 			if (phi->next)
 				phi = phi->next;
 		}
+        ft_printf("\n%\n", phi->data->ttd);
 	}
 	else
 	{

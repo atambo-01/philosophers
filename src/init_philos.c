@@ -31,15 +31,15 @@ void	data_init(char **av, t_data *data)
 		data->tts = ft_atoi(av[4]);
 		if (data->phi_n <= 0 || data->ttd <= 0 ||
 				data->tte <= 0 || data->tts <= 0)
-			end_simulation();
+			end_sim();
 	}
 	else
-		end_simulation();
+		end_sim();
 	if (av[5])
 	{	
 		data->e_min = ft_atoi(av[5]);
 		if (data->phi_n <= 0)
-			end_simulation();
+			end_sim();
 	}
 	gettimeofday(&tv, NULL);
 	data->start = tv;

@@ -13,6 +13,7 @@
 SOURCES         =	src/main.c \
 					src/init_philos.c \
 					src/utils.c \
+					src/routine.c \
 			
 CC              = cc
 CFLAGS          =  -g -pthread

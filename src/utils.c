@@ -14,14 +14,16 @@
 #include "../libft/libft.h"
 #include "../inc/philosophers.h"
 
-void    add_usec(struct timeval *tv, long usec)
+void    add_usec(struct timeval *tv, long msec)
 {
-    tv->tv_usec += usec;
-    while(tv->tv_usec >= 1000000)
-    {
-        tv->tv_usec -= 1000000;
-        tv->tv_sec += 1;
-    }
+
+    msec *= 10000;
+    tv->tv_usec += msec;
+    // while(tv->tv_usec >= 1000000)
+    // {
+    //     tv->tv_usec -= 1000000;
+    //     tv->tv_sec += 1;
+    // }
 }
 void	print_philos(t_phi *phi)
 {
@@ -43,3 +45,5 @@ void	print_philos(t_phi *phi)
 		i++;
 	}
 }
+
+//msec lss then 10 and dif between numbers is >= 6 <= 30

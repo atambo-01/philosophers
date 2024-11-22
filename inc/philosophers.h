@@ -59,4 +59,7 @@ void	init_deat_t(t_phi *phi);
 void	add_usec(struct timeval *tv, long usec);
 void	print_philos(t_phi *phi);
 
+//routine.c
+void	set_death_t(t_phi *phi);
+
 #endif
