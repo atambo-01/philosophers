@@ -14,12 +14,21 @@
 #include "../libft/libft.h"
 #include "../inc/philosophers.h"
 
-// void	dead_time(t_phi *phi)
-// {
-// 	struct  timeval tv;
-// 	{
-// 		/* data */
-// 	};
+void	set_dead_t(t_phi *phi)
+{
+	struct timeval  curr;
+
+    gettimeofday(&tv, NULL);
+    if (curr.tv_sec > phi->death_t->tv_sec)
+        end_sim();
+    else if (curr.tv_sec == phi->death_t.tv_sec)
+    {
+        if (curr.tv_usec >= phi->death_t.tv_usec)
+            end_sim();
+    }
+    phi->death_t = tv;
+    add_usec(phi->death_t, phi->data->ttd)
+}
 	
 // 	phi->death_t = tv + phi->data->ttd
 // }

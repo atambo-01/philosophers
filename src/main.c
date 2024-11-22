@@ -14,17 +14,22 @@
 #include "../libft/libft.h"
 #include "../inc/philosophers.h"
 
+pthread_mutex_t mtx;
+
 void *function(void *args)
 {	
-	pthread_mutex_t mtx;
-	
-	pthread_mutex_init(&mtx, NULL);
 	pthread_mutex_lock(&mtx);
 	t_phi *phi = (t_phi *)args; // Cast the argument to t_phi
 	printf("---------------------------------------------------\n");
-	printf("Hello from philosopher %d\n", phi->id);
+	printf("thread\t%ld\n", phi->thread);
+    printf("id\t%d\n", phi->id);
+    printf("death_t\t%lu.%lu\n", phi->death_t.tv_sec, phi->death_t.tv_usec);
+    printf("doa\t%d\n", phi->doa);
+    printf("data\t%p\n", phi->data);
+    printf("l_f\t%p\n", phi->l_f);
+    printf("r_f\t%p\n", phi->r_f);
+    printf("next\t%d\n", phi->next->id);
 	pthread_mutex_unlock(&mtx);
-//  printf("Start time: %ld.%06ld\n", phi->data->start.tv_sec, phi->data->start.tv_usec);
 }
 
 int main(int ac, char **av)
@@ -35,6 +40,8 @@ int main(int ac, char **av)
 		t_data			data;
 		t_phi			*phi;
 
+
+        pthread_mutex_init(&mtx, NULL);
 		data_init(av, &data);
 		phi = NULL;
 		make_philos(&phi, &data);
@@ -47,23 +54,21 @@ int main(int ac, char **av)
 				perror("Failed to create thread");
 				return 1;
 			}
-			// usleep(100000);
+			usleep(100000);
 			if(!first)
 				first = phi;
 			if (phi->next)
 				phi = phi->next;
 		}
-		if (phi->next)
-			phi = phi->next;
 
-		// while(data->doa == 0)
-		// {
-		// 	check_philo()
-		// }
+        
 
-		while(data.phi_n == 1 || phi->next != first)
+        first = NULL;
+		while(phi != first)
 		{
 			pthread_join(phi->thread, NULL);
+			if(!first)
+				first = phi;
 			if (phi->next)
 				phi = phi->next;
 		}
