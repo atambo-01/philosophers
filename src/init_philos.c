@@ -21,8 +21,6 @@ void	end_sim(void)
 
 void	data_init(char **av, t_data *data)
 {
-	struct timeval	tv;
-
 	if (av[1] && av[2] && av[3] && av[4])
 	{
 		data->phi_n = ft_atoi(av[1]);
@@ -41,8 +39,7 @@ void	data_init(char **av, t_data *data)
 		if (data->phi_n <= 0)
 			end_sim();
 	}
-	gettimeofday(&tv, NULL);
-	data->start = tv;
+	data->start = ft_get_msec();
 }
 void	make_philos(t_phi **phi, t_data *data)
 {
@@ -92,9 +89,9 @@ void	init_forks(t_phi *phi)
 	}
 	if ( phi != NULL)
 		first->l_f = prev->r_f;
-	init_deat_t(phi);
+	init_death_t(phi);
 }
-void    init_deat_t(t_phi *phi)
+void    init_death_t(t_phi *phi)
 {
 	t_phi *first;
 
@@ -102,7 +99,7 @@ void    init_deat_t(t_phi *phi)
 	while(phi != first)
 	{
 		phi->death_t = phi->data->start;
-		add_usec(&(phi->death_t), phi->data->ttd);
+		phi->death_t += phi->data->ttd * 1000;
 		if(!first)
 			first = phi;
 		if (phi->next)

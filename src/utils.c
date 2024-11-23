@@ -14,36 +14,90 @@
 #include "../libft/libft.h"
 #include "../inc/philosophers.h"
 
-void    add_usec(struct timeval *tv, long msec)
-{
-
-    msec *= 10000;
-    tv->tv_usec += msec;
-    // while(tv->tv_usec >= 1000000)
-    // {
-    //     tv->tv_usec -= 1000000;
-    //     tv->tv_sec += 1;
-    // }
-}
 void	print_philos(t_phi *phi)
 {
-	int i;
 	t_phi	*first;
 
-	i = 1;
-	first = phi;
-	while(phi != first || i == 1)
+	first = NULL;
+	while(phi != first)
 	{
-		ft_printf("phi->id = %d", phi->id);
-		ft_printf("\tl_f = %p\tr_f = %p", phi->l_f, phi->r_f);
-		if (phi->next && phi->r_f == phi->next->l_f)
-			ft_printf("\tcorrect !!");
-		ft_printf("\n");
+		printf("---------------------------------------------------\n");
+		printf("thread\t%ld\n", phi->thread);
+		printf("id\t%d\n", phi->id);
+		printf("death_t\t%ld\n", phi->death_t);
+		printf("doa\t%d\n", phi->doa);
+		printf("data\t%p\n", phi->data);
+		printf("l_f\t%p\n", phi->l_f);
+		if(!first)
+			first = phi;
 		if (phi->next)
+		{		
+			printf("r_f\t%p\n", phi->r_f);
+			printf("next\t%d\n", phi->next->id);
 			phi = phi->next;
-		// usleep(90000);
-		i++;
+		}
 	}
+	printf("---------------------------------------------------\n");
+}
+
+long    ft_get_msec()
+{
+	long			msec;
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	msec = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	return (msec); 
+}
+
+// void	check_forks(t_phi *phi)
+// {
+// 	t_phi	*first;
+// 	t_phi	*prev;
+
+// 	first = NULL;
+// 	prev = phi;
+// 	while(phi != first)
+// 	{
+// 		pthread_join(phi->thread, NULL);
+// 		if (!first)
+// 			first = phi;
+// 		else
+// 		{
+			
+// 		}
+// 		if (phi->next)
+// 			phi = phi->next;
+// 	}
+// }
+
+void	ft_free_phi(t_phi **phi)
+{
+	t_phi	*next;
+	t_phi	*first;
+
+	if (!phi || !*phi)
+		return;
+	first = *phi;
+	while (*phi)
+	{
+		next = (*phi)->next;
+		(*phi)->l_f == NULL;
+		ft_free((void **)&((*phi)->r_f));
+		if (*phi == first)
+			break;
+		*phi = next;
+	}
+}
+
+void	rec_free_phi(t_phi **temp, t_phi **phi)
+{
+	// if (!(*temp))
+	// 	return;
+	if (*temp && (*temp)->next != *phi)
+		rec_free_phi(&((*temp)->next), phi);
+	(*temp)->data = NULL;
+	ft_free((void **)temp);
 }
 
 //msec lss then 10 and dif between numbers is >= 6 <= 30

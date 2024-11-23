@@ -16,14 +16,16 @@
 
 void	set_death_t(t_phi *phi)
 {
-	struct timeval  curr;
+    long int curr;
 
-    gettimeofday(&curr, NULL);
-    if (curr.tv_sec > phi->death_t.tv_sec)
+    curr = ft_get_msec();
+    if (phi->death_t <= 0)
+        return;
+    if (curr > phi->death_t)
         end_sim();
-    else if (curr.tv_sec == phi->death_t.tv_sec)
+    else if (curr == phi->death_t)
     {
-        if (curr.tv_usec >= phi->death_t.tv_usec)
+        if (curr >= phi->death_t)
             end_sim();
     }
     phi->death_t = curr;
