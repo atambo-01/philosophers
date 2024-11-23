@@ -81,42 +81,8 @@ int main(int ac, char **av)
 		// 	if (phi->next)
 		// 		phi = phi->next;
 		// }
-		// print_philos(phi);
-
-		t_phi *next;
-
-		print_philos(phi);
-		sleep(2);
-		system("clear");
-		next = phi->next; // Save the next node
-		phi->l_f = NULL;
-		ft_free((void **)&phi->r_f); // Free the right fork
-		phi = next;    
-
-		print_philos(phi);
-		sleep(2);
-		system("clear");
-		next = phi->next; // Save the next node
-		phi->l_f = NULL;
-		ft_free((void **)&phi->r_f); // Free the right fork
-		phi = next;    
-	
-		print_philos(phi);
-		sleep(2);
-		system("clear");
-		next = phi->next; // Save the next node
-		phi->l_f = NULL;
-		ft_free((void **)&phi->r_f); // Free the right fork
-		phi = next;    
-
-		print_philos(phi);
-
-		rec_free_phi(&phi, &phi);
-		
-		sleep(2);
-		system("clear");
-		print_philos(phi);
-
+        
+		free_phi(&phi);
 	}
 	else
 	{

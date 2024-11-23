@@ -58,8 +58,7 @@ void	init_death_t(t_phi *phi);
 void	add_usec(struct timeval *tv, long usec);
 void	print_philos(t_phi *phi);
 long    ft_get_msec();
-void	ft_free_phi(t_phi **phi);
-void	rec_free_phi(t_phi **temp, t_phi **phi);
+void	free_phi(t_phi **phi);
 
 
 //routine.c

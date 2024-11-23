@@ -71,33 +71,54 @@ long    ft_get_msec()
 // 	}
 // }
 
-void	ft_free_phi(t_phi **phi)
+static void	free_forks(t_phi **phi)
 {
+	t_phi	*current;
+	t_phi	*first;
+
+	if (!phi || !*phi)
+		return;
+	current = *phi;
+	first = *phi;
+
+	while (current)
+	{
+		current->l_f = NULL;                // Nullify left fork
+		ft_free((void **)&(current->r_f)); // Free right fork
+
+		if (current->next == first)        // Check if we've returned to the first node
+			break;
+
+		current = current->next;           // Move to the next node
+	}
+}
+
+void	free_phi(t_phi **phi)
+{
+	t_phi	*current;
 	t_phi	*next;
 	t_phi	*first;
 
 	if (!phi || !*phi)
 		return;
+	free_forks(phi);
+	current = *phi;
 	first = *phi;
-	while (*phi)
+
+	while (current)
 	{
-		next = (*phi)->next;
-		(*phi)->l_f == NULL;
-		ft_free((void **)&((*phi)->r_f));
-		if (*phi == first)
+		next = current->next;     // Save the next node
+
+		ft_free((void **)&current); // Free the current node
+
+		if (next == first)        // Check if we've returned to the first node
 			break;
-		*phi = next;
+
+		current = next;           // Move to the next node
 	}
+	*phi = NULL; // Nullify the list pointer
 }
 
-void	rec_free_phi(t_phi **temp, t_phi **phi)
-{
-	// if (!(*temp))
-	// 	return;
-	if (*temp && (*temp)->next != *phi)
-		rec_free_phi(&((*temp)->next), phi);
-	(*temp)->data = NULL;
-	ft_free((void **)temp);
-}
+
 
 //msec lss then 10 and dif between numbers is >= 6 <= 30
