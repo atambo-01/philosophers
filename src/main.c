@@ -14,35 +14,6 @@
 #include "../libft/libft.h"
 #include "../inc/philosophers.h"
 
-pthread_mutex_t mtx;
-
-void *function(void *args)
-{	
-	t_phi *phi;
-	t_phi *first;
-	
-	pthread_mutex_lock(&mtx);
-	first = NULL;
-	phi = (t_phi *)args;
-	printf("---------------------------------------------------\n");
-	printf("thread\t\t%ld\n", phi->thread);
-	printf("id\t\t%d\n", phi->id);
-	printf("death_t\t\t%ld\n", phi->death_t);
-	printf("doa\t\t%d\n", phi->doa);
-	printf("data\t\t%p\n", phi->data);
-	printf("l_f\t\t%p\n", phi->l_f);
-	if(!first)
-		first = phi;
-	if (phi->next)
-	{		
-		printf("r_f\t\t%p\n", phi->r_f);
-		printf("next\t\t%d\n", phi->next->id);
-		phi = phi->next;
-	}
-	printf("---------------------------------------------------\n");
-	pthread_mutex_unlock(&mtx);
-}
-
 int main(int ac, char **av)
 {
 	if (ac == 5 || ac == 6)
@@ -51,24 +22,28 @@ int main(int ac, char **av)
 		t_data			data;
 		t_phi			*phi;
 
-        pthread_mutex_init(&mtx, NULL);
 		data_init(av, &data);
 		phi = NULL;
 		make_philos(&phi, &data);
 		first = NULL;
-        set_death_t(phi);
+		print_data(&data);
+		print_philos(phi);
 		while(phi != first)
 		{
-			if (pthread_create(&(phi->thread), NULL, &is_eating, (phi)) != 0)
+			if (pthread_create(&(phi->thread), NULL, routine, (phi)) != 0)
 			{
 				perror("Failed to create thread");
 				return 1;
 			}
-			usleep(100000);
+			usleep(10000);
 			if(!first)
 				first = phi;
 			if (phi->next)
 				phi = phi->next;
+		}
+		while(data.run)
+		{
+			check_philos(phi);
 		}
         first = NULL;
 		while(phi != first)

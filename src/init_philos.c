@@ -23,6 +23,8 @@ void	data_init(char **av, t_data *data)
 {
 	if (av[1] && av[2] && av[3] && av[4])
 	{
+		data->print = 1;
+		data->run = 1;
 		data->phi_n = ft_atoi(av[1]);
 		data->ttd = ft_atoi(av[2]);
 		data->tte = ft_atoi(av[3]);
@@ -48,7 +50,8 @@ void	make_philos(t_phi **phi, t_data *data)
 	i = 1;
 	(*phi) = ft_malloc(sizeof(t_phi));
 	(*phi)->id = i;
-	(*phi)->doa = 1;
+	(*phi)->p_meals = 0;
+	(*phi)->p_doa = 1;
 	(*phi)->data = data;
 	(*phi)->next = NULL;
 	(*phi)->l_f = NULL;
@@ -60,7 +63,8 @@ void	make_philos(t_phi **phi, t_data *data)
 		current->next = ft_malloc(sizeof(t_phi));
 		current = current->next;
 		current->id = i;
-		current->doa = 1;
+		(*phi)->p_meals = 0;
+		(*phi)->p_doa = 1;
 		current->data = data;
 		current->next = NULL;
 	}
@@ -89,17 +93,21 @@ void	init_forks(t_phi *phi)
 	}
 	if ( phi != NULL)
 		first->l_f = prev->r_f;
+	// printf("id = %d\n", phi->id);
 	init_death_t(phi);
 }
 void    init_death_t(t_phi *phi)
 {
-	t_phi *first;
+	t_phi	*first;
+	long	time;
 
+	time = phi->data->start + phi->data->ttd;
 	first = NULL;
 	while(phi != first)
 	{
-		phi->death_t = phi->data->start;
-		phi->death_t += phi->data->ttd * 1000;
+			printf("\n%ld\n", time);
+		phi->death_t = time;
+		phi->p_meals = 0; 
 		if(!first)
 			first = phi;
 		if (phi->next)

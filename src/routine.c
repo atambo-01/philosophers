@@ -14,77 +14,59 @@
 #include "../libft/libft.h"
 #include "../inc/philosophers.h"
 
-void	set_death_t(t_phi *phi)
-{
-    long int curr;
-
-    curr = ft_get_msec();
-    if (phi->death_t <= 0)
-        return;
-    if (curr > phi->death_t)
-        end_sim();
-    else if (curr == phi->death_t)
-    {
-        if (curr >= phi->death_t)
-            end_sim();
-    }
-    phi->death_t = curr;
-}
-void    check_philos(t_phi *phi)
-{
-    
-}
-
-void   *is_eating(void *args)
+void   *is_eating(t_phi *phi)
 {   
-    long    time;
-    t_phi   *phi;
-
-    phi = (t_phi *)args;
+	if (!phi->data->run)
+        return (NULL);
     if (!phi->r_f || !phi->l_f)
         return (NULL);
     if(phi->id % 2 == 0)
     {
-        pthread_mutex_lock(phi->r_f);
-        if (phi->next)
-            pthread_mutex_lock(phi->l_f);
+		// ft_lock_forks(phi, 1);
+		pthread_mutex_lock(phi->l_f);
+		ft_mutex_printf(phi, "has taken a fork\n");
+		pthread_mutex_lock(phi->r_f);
+		ft_mutex_printf(phi, "has taken a fork\n");
     }
     else
     {
-        if (phi->next)
-            pthread_mutex_lock(phi->l_f);
-        pthread_mutex_lock(phi->r_f);
+		// ft_lock_forks(phi, 2);
+		pthread_mutex_lock(phi->r_f);
+		ft_mutex_printf(phi, "has taken a fork\n");
+		pthread_mutex_lock(phi->l_f);
+		ft_mutex_printf(phi, "has taken a fork\n");
     }
-    time = ft_get_msec() - phi->data->start;
-    printf("%ld\t%d is eating\n", time, phi->id);
-    usleep(phi->data->tte);
-    pthread_mutex_unlock(phi->l_f);
-    pthread_mutex_unlock(phi->r_f);
-    *is_thinking(phi);
-
+    ft_mutex_printf(phi, "is eating\n");
+    usleep(phi->data->tte * 1000);
+	// ft_lock_forks(phi, -1);
+	pthread_mutex_unlock(phi->l_f);
+	pthread_mutex_unlock(phi->r_f);
+    is_thinking(phi);
 }
 
-void    *is_thinking(phi)
+void    *is_thinking(t_phi *phi)
 {
-
+	if (!phi->data->run)
+        return (NULL);
+    ft_mutex_printf(phi, "is thinkig\n");
+    is_sleeping(phi);
+    
 }
 
-void    *is_sleeping(phi)
-{}
+void    *is_sleeping(t_phi *phi)
+{
+	if (!phi->data->run)
+        return (NULL);
+    ft_mutex_printf(phi, "is sleeping\n");
+    usleep(phi->data->tts * 1000);
+    is_eating(phi);
+}
 
-// void    is_sleeping()
-// {}
+void    *routine(void *args)
+{	
+	t_phi *phi;
 
-// void    is_thinknig()
-// {}
+	phi = (t_phi *)args;
+    is_eating(phi);
 
-// void    routine(t_phi *phi)
-// {
-//     while(1)
-//     {
-//         is_eating();
-//         is_sleeping();
-//         is_thinking();
-//     }
-// }
-
+}
