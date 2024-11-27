@@ -28,11 +28,11 @@ void	print_philos(t_phi *phi)
 		printf("doa\t%d\n", phi->doa);
 		printf("data\t%p\n", phi->data);
 		printf("l_f\t%p\n", phi->l_f);
+        printf("r_f\t%p\n", phi->r_f);
 		if(!first)
 			first = phi;
 		if (phi->next)
 		{		
-			printf("r_f\t%p\n", phi->r_f);
 			printf("next\t%d\n", phi->next->id);
 			phi = phi->next;
 		}
@@ -40,7 +40,7 @@ void	print_philos(t_phi *phi)
 	printf("---------------------------------------------------\n");
 }
 
-long    ft_get_msec()
+long    ft_get_msec(void)
 {
 	long			msec;
 	struct timeval	tv;

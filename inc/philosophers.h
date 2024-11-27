@@ -57,11 +57,12 @@ void	init_death_t(t_phi *phi);
 //utils.c
 void	add_usec(struct timeval *tv, long usec);
 void	print_philos(t_phi *phi);
-long    ft_get_msec();
+long    ft_get_msec(void);
 void	free_phi(t_phi **phi);
 
 
 //routine.c
 void	set_death_t(t_phi *phi);
+void    *is_eating(void *args);
 
 #endif

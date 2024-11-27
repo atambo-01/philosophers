@@ -26,9 +26,9 @@ void *function(void *args)
 	phi = (t_phi *)args;
 	printf("---------------------------------------------------\n");
 	printf("thread\t\t%ld\n", phi->thread);
-	printf("id\t%d\n", phi->id);
+	printf("id\t\t%d\n", phi->id);
 	printf("death_t\t\t%ld\n", phi->death_t);
-	printf("doa\t%d\n", phi->doa);
+	printf("doa\t\t%d\n", phi->doa);
 	printf("data\t\t%p\n", phi->data);
 	printf("l_f\t\t%p\n", phi->l_f);
 	if(!first)
@@ -36,7 +36,7 @@ void *function(void *args)
 	if (phi->next)
 	{		
 		printf("r_f\t\t%p\n", phi->r_f);
-		printf("next\t%d\n", phi->next->id);
+		printf("next\t\t%d\n", phi->next->id);
 		phi = phi->next;
 	}
 	printf("---------------------------------------------------\n");
@@ -57,31 +57,28 @@ int main(int ac, char **av)
 		make_philos(&phi, &data);
 		first = NULL;
         set_death_t(phi);
-
-		// while(phi != first)
-		// {
-		// 	if (pthread_create(&(phi->thread), NULL, function, (phi)) != 0)
-		// 	{
-		// 		perror("Failed to create thread");
-		// 		return 1;
-		// 	}
-		// 	usleep(100000);
-		// 	if(!first)
-		// 		first = phi;
-		// 	if (phi->next)
-		// 		phi = phi->next;
-		// }
-
-        // first = NULL;
-		// while(phi != first)
-		// {
-		// 	pthread_join(phi->thread, NULL);
-		// 	if(!first)
-		// 		first = phi;
-		// 	if (phi->next)
-		// 		phi = phi->next;
-		// }
-        
+		while(phi != first)
+		{
+			if (pthread_create(&(phi->thread), NULL, &is_eating, (phi)) != 0)
+			{
+				perror("Failed to create thread");
+				return 1;
+			}
+			usleep(100000);
+			if(!first)
+				first = phi;
+			if (phi->next)
+				phi = phi->next;
+		}
+        first = NULL;
+		while(phi != first)
+		{
+			pthread_join(phi->thread, NULL);
+			if(!first)
+				first = phi;
+			if (phi->next)
+				phi = phi->next;
+		}
 		free_phi(&phi);
 	}
 	else
