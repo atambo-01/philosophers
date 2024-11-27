@@ -73,27 +73,34 @@ void	make_philos(t_phi **phi, t_data *data)
 		current->next = *phi;
 		init_forks(*phi);
 	}
+	else
+		init_death_t(*phi);
+
+
 }
 
 void	init_forks(t_phi *phi)
 {
-	t_phi *prev;
-	t_phi *first;
+	t_phi	*prev;
+	t_phi	*first;
+	t_phi	*t_phi;
 
-	first = phi;
-	prev = phi;
-	phi = phi->next;
-	while(phi != first)
+	t_phi = phi;
+	first = t_phi;
+	prev = t_phi;
+	t_phi = t_phi->next;
+	while(t_phi != first)
 	{
-		phi->l_f = prev->r_f;
-		phi->r_f = ft_malloc(sizeof(pthread_mutex_t));
-		pthread_mutex_init(phi->r_f, NULL);
-		prev = phi;
-		phi = phi->next;
+		t_phi->l_f = prev->r_f;
+		t_phi->r_f = ft_malloc(sizeof(pthread_mutex_t));
+		pthread_mutex_init(t_phi->r_f, NULL);
+		prev = t_phi;
+		t_phi = t_phi->next;
 	}
-	if ( phi != NULL)
+	if 	(t_phi != NULL)
 		first->l_f = prev->r_f;
-	// printf("id = %d\n", phi->id);
+	printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+	printf("id = %d\n", t_phi->id);
 	init_death_t(phi);
 }
 void    init_death_t(t_phi *phi)
