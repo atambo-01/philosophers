@@ -24,18 +24,16 @@ void	main_loop(t_phi *phi)
 			perror("Failed to create thread");
 			return ;
 		}
-		usleep(10000);
 		if (!first)
 			first = phi;
 		if (phi->next)
 			phi = phi->next;
 	}
-	// check_philos(phi);
 	first = NULL;
 	while (phi != first)
 	{
 		pthread_join(phi->thread, NULL);
-		if(!first)
+		if (!first)
 			first = phi;
 		if (phi->next)
 			phi = phi->next;
@@ -45,16 +43,25 @@ void	main_loop(t_phi *phi)
 void	*is_eating(t_phi *phi)
 {
 	check_philos(phi);
-	if (!phi->data->run || !phi->r_f || !phi->l_f)
+	if (!phi->data->run)
 		return (NULL);
-	if (phi->id % 2 == 0)
+	if (phi->l_f == NULL)
+	{
+		pthread_mutex_lock(phi->r_f);
+		ft_mutex_printf(phi, "has taken a fork\n");
+	}
+	else if (phi->id % 2 == 0)
 		ft_mutex_forks(phi, 1);
 	else
 		ft_mutex_forks(phi, 2);
 	phi->death_t = ft_get_msec() + phi->data->ttd;
-	ft_mutex_printf(phi, "is eating\n");
+	if (phi->l_f != NULL)
+		ft_mutex_printf(phi, "is eating\n");
 	usleep(phi->data->tte * 1000);
-	ft_mutex_forks(phi, -1);
+	if (phi->l_f == NULL)
+		pthread_mutex_unlock(phi->r_f);
+	else
+		ft_mutex_forks(phi, -1);
 	check_philos(phi);
 	is_thinking(phi);
 }

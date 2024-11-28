@@ -14,9 +14,9 @@
 
 void	check_philos(t_phi *phi)
 {
-	long	curr;
-	t_phi	*first;
-	unsigned int count;
+	long			curr;
+	t_phi			*first;
+	unsigned int	count;
 
 	curr = ft_get_msec();
 	if (curr >= phi->death_t)
@@ -29,7 +29,7 @@ void	check_philos(t_phi *phi)
 	{
 		if (phi->data->e_min > 0 && phi->p_meals >= phi->data->e_min)
 			count++;
-		if(!first)
+		if (!first)
 			first = phi;
 		if (phi->next)
 			phi = phi->next;

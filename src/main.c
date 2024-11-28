@@ -14,7 +14,6 @@
 
 int	main(int ac, char **av)
 {
-	t_phi			*first;
 	t_phi			*phi;
 	t_data			data;
 
@@ -23,9 +22,6 @@ int	main(int ac, char **av)
 		data_init(av, &data);
 		phi = NULL;
 		make_philos(&phi, &data);
-		first = NULL;
-		// print_data(&data);
-		// print_philos(phi);
 		main_loop(phi);
 		free_phi(&phi);
 	}
