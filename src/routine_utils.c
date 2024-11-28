@@ -15,33 +15,27 @@
 void	check_philos(t_phi *phi)
 {
 	long	curr;
-
-	while (phi->data->run)
-	{
-		curr = ft_get_msec();
-		if (curr >= phi->death_t)
-		{
-			ft_mutex_printf(phi, "has died\n");
-			phi->data->run = 0;
-			printf("%ld\n", curr);
-			print_philos(phi);
-		}
-		else if (phi->data->e_min > 0 && phi->p_meals >= phi->data->e_min)
-			phi->data->run = 0;
-		if (phi->next)
-			phi = phi->next;
-	}
-}
-
-void	set_death_t(t_phi *phi)
-{
-	long int	curr;
+	t_phi	*first;
+	unsigned int count;
 
 	curr = ft_get_msec();
 	if (curr >= phi->death_t)
+	{
+		ft_mutex_printf(phi, "has died\n");
 		phi->data->run = 0;
-	else
-		phi->death_t = curr;
+	}
+	first = NULL;
+	while (phi != first)
+	{
+		if (phi->data->e_min > 0 && phi->p_meals >= phi->data->e_min)
+			count++;
+		if(!first)
+			first = phi;
+		if (phi->next)
+			phi = phi->next;
+	}
+	if (count == phi->data->phi_n)
+		phi->data->run = 0;
 }
 
 void	ft_mutex_printf(t_phi *phi, char *str)

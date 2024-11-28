@@ -24,8 +24,8 @@ int	main(int ac, char **av)
 		phi = NULL;
 		make_philos(&phi, &data);
 		first = NULL;
-		print_data(&data);
-		print_philos(phi);
+		// print_data(&data);
+		// print_philos(phi);
 		main_loop(phi);
 		free_phi(&phi);
 	}

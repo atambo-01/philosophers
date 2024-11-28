@@ -1,4 +1,14 @@
-//she's crazy like a fool, about daddy cool.
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   extra.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: atambo <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/28 11:18:39 by atambo            #+#    #+#             */
+/*   Updated: 2024/11/28 11:18:45 by atambo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../inc/philosophers.h"
 
@@ -15,6 +25,7 @@ void	print_data(t_data *data)
 	printf("e_min\t%d\n", data->e_min);
 	printf("---------------------------------------------------\n");
 }
+
 void	print_philos(t_phi *phi)
 {
 	t_phi	*first;
@@ -22,7 +33,7 @@ void	print_philos(t_phi *phi)
 	first = NULL;
 	printf("---------------------------------------------------\n");
 	printf("Philos\n");
-	while(phi != first)
+	while (phi != first)
 	{
 		printf("---------------------------------------------------\n");
 		printf("thread\t%ld\n", phi->thread);
@@ -31,8 +42,8 @@ void	print_philos(t_phi *phi)
 		printf("meals\t%d\n", phi->p_meals);
 		printf("data\t%p\n", phi->data);
 		printf("l_f\t%p\n", phi->l_f);
-        printf("r_f\t%p\n", phi->r_f);
-		if(!first)
+		printf("r_f\t%p\n", phi->r_f);
+		if (!first)
 			first = phi;
 		if (phi->next)
 		{		

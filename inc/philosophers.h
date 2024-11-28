@@ -29,6 +29,7 @@ typedef struct s_data
 	atomic_int		run;
 	atomic_long		start;
 	atomic_int		phi_n;
+	atomic_int		meals;
 	atomic_int		ttd;
 	atomic_int		tte;
 	atomic_int		tts;
@@ -37,13 +38,13 @@ typedef struct s_data
 
 typedef struct s_phi
 {
-	int				id;
-	int				p_meals;
+	atomic_int		id;
+	atomic_int		p_meals;
 	t_data			*data;
 	t_phi			*next;
 	pthread_mutex_t	*r_f;
 	pthread_mutex_t	*l_f;
-	long			death_t;
+	atomic_long		death_t;
 	pthread_t		thread;
 }	t_phi;
 
@@ -54,7 +55,7 @@ void	init_forks(t_phi *phi);
 void	init_death_t(t_phi *phi);
 
 //libft.c
-int	ft_atoi(const char *nptr);
+int		ft_atoi(const char *nptr);
 void	ft_free(void **ptr);
 void	*ft_malloc(size_t size);
 
@@ -62,7 +63,6 @@ void	*ft_malloc(size_t size);
 void	check_philos(t_phi *phi);
 void	ft_mutex_printf(t_phi *phi, char *str);
 void	ft_mutex_forks(t_phi *phi, int i);
-void	set_death_t(t_phi *phi);
 
 //routine.c
 void	main_loop(t_phi *phi);

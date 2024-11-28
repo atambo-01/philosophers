@@ -30,7 +30,7 @@ void	main_loop(t_phi *phi)
 		if (phi->next)
 			phi = phi->next;
 	}
-	check_philos(phi);
+	// check_philos(phi);
 	first = NULL;
 	while (phi != first)
 	{
@@ -44,6 +44,7 @@ void	main_loop(t_phi *phi)
 
 void	*is_eating(t_phi *phi)
 {
+	check_philos(phi);
 	if (!phi->data->run || !phi->r_f || !phi->l_f)
 		return (NULL);
 	if (phi->id % 2 == 0)
@@ -54,24 +55,29 @@ void	*is_eating(t_phi *phi)
 	ft_mutex_printf(phi, "is eating\n");
 	usleep(phi->data->tte * 1000);
 	ft_mutex_forks(phi, -1);
-	phi->p_meals += 1;
+	check_philos(phi);
 	is_thinking(phi);
 }
 
 void	*is_thinking(t_phi *phi)
 {
+	check_philos(phi);
 	if (!phi->data->run)
 		return (NULL);
+	phi->p_meals += 1;
 	ft_mutex_printf(phi, "is thinkig\n");
+	check_philos(phi);
 	is_sleeping(phi);
 }
 
 void	*is_sleeping(t_phi *phi)
 {
+	check_philos(phi);
 	if (!phi->data->run)
 		return (NULL);
 	ft_mutex_printf(phi, "is sleeping\n");
 	usleep(phi->data->tts);
+	check_philos(phi);
 	is_eating(phi);
 }
 
