@@ -15,6 +15,8 @@ SOURCES         =	src/main.c \
 					src/utils.c \
 					src/routine.c \
 					src/routine_utils.c \
+					src/libft.c \
+					src/extra.c \
 			
 CC              = cc
 CFLAGS          =  -g -pthread
@@ -22,9 +24,9 @@ NAME            = philosophers
 OBJS            = $(SOURCES:.c=.o)
 INCLUDES        = -Iincludes
 
-SUBDIRS         = ./ft_printf ./libft
+SUBDIRS         =
 
-LIBS            = ./ft_printf/ft_printf.a ./libft/libft.a
+LIBS            =
 
 all: submake $(NAME)
 

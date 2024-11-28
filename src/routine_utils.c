@@ -10,21 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf/includes/ft_printf.h"
-#include "../libft/libft.h"
 #include "../inc/philosophers.h"
 
-void 	check_philos(t_phi *phi)
+void	check_philos(t_phi *phi)
 {
 	long	curr;
 
-	while(phi->data->run)
+	while (phi->data->run)
 	{
 		curr = ft_get_msec();
 		if (curr >= phi->death_t)
 		{
 			ft_mutex_printf(phi, "has died\n");
 			phi->data->run = 0;
+			printf("%ld\n", curr);
+			print_philos(phi);
 		}
 		else if (phi->data->e_min > 0 && phi->p_meals >= phi->data->e_min)
 			phi->data->run = 0;
@@ -32,9 +32,10 @@ void 	check_philos(t_phi *phi)
 			phi = phi->next;
 	}
 }
+
 void	set_death_t(t_phi *phi)
 {
-	long int curr;
+	long int	curr;
 
 	curr = ft_get_msec();
 	if (curr >= phi->death_t)
@@ -43,18 +44,20 @@ void	set_death_t(t_phi *phi)
 		phi->death_t = curr;
 }
 
-void    ft_mutex_printf(t_phi *phi, char *str)
+void	ft_mutex_printf(t_phi *phi, char *str)
 {
-	long            time;
+	long			time;
 	pthread_mutex_t	print;
+
 	if (!phi->data->run)
-        return;
+		return ;
 	time = ft_get_msec() - phi->data->start;
 	pthread_mutex_init(&print, NULL);
 	pthread_mutex_lock(&print);
 	printf("%06ld\t%d %s", time, phi->id, str);
 	pthread_mutex_unlock(&print);
 }
+
 void	ft_mutex_forks(t_phi *phi, int i)
 {
 	if (i == 1)

@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../ft_printf/includes/ft_printf.h"
-#include "../libft/libft.h"
 #include "../inc/philosophers.h"
-
 
 void	data_init(char **av, t_data *data)
 {
@@ -24,8 +21,8 @@ void	data_init(char **av, t_data *data)
 		data->ttd = ft_atoi(av[2]);
 		data->tte = ft_atoi(av[3]);
 		data->tts = ft_atoi(av[4]);
-		if (data->phi_n <= 0 || data->ttd <= 0 ||
-				data->tte <= 0 || data->tts <= 0)
+		if (data->phi_n <= 0 || data->ttd <= 0 || data->tte <= 0
+			|| data->tts <= 0)
 			data->run = 0;
 	}
 	else
@@ -40,30 +37,34 @@ void	data_init(char **av, t_data *data)
 		data->e_min = -1;
 	data->start = ft_get_msec();
 }
-void	make_philos(t_phi **phi, t_data *data)
-{
-	int i;
 
-	i = 1;
-	(*phi) = ft_malloc(sizeof(t_phi));
+static void	make_philos_02(t_phi **phi, t_data *data, int i)
+{
 	(*phi)->id = i;
 	(*phi)->p_meals = 0;
 	(*phi)->data = data;
 	(*phi)->next = NULL;
+}
+
+void	make_philos(t_phi **phi, t_data *data)
+{
+	int		i;
+	t_phi	*current;
+
+	i = 1;
+	(*phi) = ft_malloc(sizeof(t_phi));
+	current = *phi;
+	make_philos_02(phi, data, i);
 	(*phi)->l_f = NULL;
 	(*phi)->r_f = ft_malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init((*phi)->r_f, NULL);
-	t_phi *current = *phi;
 	while (++i <= data->phi_n)
 	{
 		current->next = ft_malloc(sizeof(t_phi));
 		current = current->next;
-		current->id = i;
-		(*phi)->p_meals = 0;
-		current->data = data;
-		current->next = NULL;
+		make_philos_02(&current, data, i);
 	}
-	if(data->phi_n > 1)
+	if (data->phi_n > 1)
 	{	
 		current->next = *phi;
 		init_forks(*phi);
@@ -82,7 +83,7 @@ void	init_forks(t_phi *phi)
 	first = t_phi;
 	prev = t_phi;
 	t_phi = t_phi->next;
-	while(t_phi != first)
+	while (t_phi != first)
 	{
 		t_phi->l_f = prev->r_f;
 		t_phi->r_f = ft_malloc(sizeof(pthread_mutex_t));
@@ -90,22 +91,23 @@ void	init_forks(t_phi *phi)
 		prev = t_phi;
 		t_phi = t_phi->next;
 	}
-	if 	(t_phi != NULL)
+	if (t_phi != NULL)
 		first->l_f = prev->r_f;
 	init_death_t(phi);
 }
-void    init_death_t(t_phi *phi)
+
+void	init_death_t(t_phi *phi)
 {
 	t_phi	*first;
 	long	time;
 
 	time = phi->data->start + phi->data->ttd;
 	first = NULL;
-	while(phi != first)
+	while (phi != first)
 	{
 		phi->death_t = time;
-		phi->p_meals = 0; 
-		if(!first)
+		phi->p_meals = 0;
+		if (!first)
 			first = phi;
 		if (phi->next)
 			phi = phi->next;
