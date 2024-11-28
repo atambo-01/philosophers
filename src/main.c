@@ -42,9 +42,7 @@ int main(int ac, char **av)
 				phi = phi->next;
 		}
 		while(data.run)
-		{
 			check_philos(phi);
-		}
         first = NULL;
 		while(phi != first)
 		{
@@ -54,6 +52,7 @@ int main(int ac, char **av)
 			if (phi->next)
 				phi = phi->next;
 		}
+		// print_philos(phi);
 		free_phi(&phi);
 	}
 	else

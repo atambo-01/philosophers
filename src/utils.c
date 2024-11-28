@@ -19,7 +19,6 @@ void	print_data(t_data *data)
 {
 	printf("Data\n");
 	printf("---------------------------------------------------\n");
-	printf("print\t%d\n", data->print);
 	printf("run\t%d\n", data->run);
 	printf("start\t%ld\n", data->start);
 	printf("phi_n\t%d\n", data->phi_n);
@@ -34,6 +33,7 @@ void	print_philos(t_phi *phi)
 	t_phi	*first;
 
 	first = NULL;
+	printf("---------------------------------------------------\n");
 	printf("Philos\n");
 	while(phi != first)
 	{
@@ -41,7 +41,6 @@ void	print_philos(t_phi *phi)
 		printf("thread\t%ld\n", phi->thread);
 		printf("id\t%d\n", phi->id);
 		printf("death_t\t%ld\n", phi->death_t);
-		printf("doa\t%d\n", phi->p_doa);
 		printf("meals\t%d\n", phi->p_meals);
 		printf("data\t%p\n", phi->data);
 		printf("l_f\t%p\n", phi->l_f);
@@ -66,27 +65,6 @@ long    ft_get_msec(void)
 	msec = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	return (msec); 
 }
-
-// void	check_forks(t_phi *phi)
-// {
-// 	t_phi	*first;
-// 	t_phi	*prev;
-
-// 	first = NULL;
-// 	prev = phi;
-// 	while(phi != first)
-// 	{
-// 		pthread_join(phi->thread, NULL);
-// 		if (!first)
-// 			first = phi;
-// 		else
-// 		{
-			
-// 		}
-// 		if (phi->next)
-// 			phi = phi->next;
-// 	}
-// }
 
 static void	free_forks(t_phi **phi)
 {

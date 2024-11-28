@@ -14,16 +14,11 @@
 #include "../libft/libft.h"
 #include "../inc/philosophers.h"
 
-void	end_sim(void)
-{
-	exit(1);
-}
 
 void	data_init(char **av, t_data *data)
 {
 	if (av[1] && av[2] && av[3] && av[4])
 	{
-		data->print = 1;
 		data->run = 1;
 		data->phi_n = ft_atoi(av[1]);
 		data->ttd = ft_atoi(av[2]);
@@ -31,15 +26,15 @@ void	data_init(char **av, t_data *data)
 		data->tts = ft_atoi(av[4]);
 		if (data->phi_n <= 0 || data->ttd <= 0 ||
 				data->tte <= 0 || data->tts <= 0)
-			end_sim();
+			data->run = 0;
 	}
 	else
-		end_sim();
+		data->run = 0;
 	if (av[5])
 	{	
 		data->e_min = ft_atoi(av[5]);
 		if (data->phi_n <= 0)
-			end_sim();
+			data->run = 0;
 	}
 	data->start = ft_get_msec();
 }
@@ -51,7 +46,6 @@ void	make_philos(t_phi **phi, t_data *data)
 	(*phi) = ft_malloc(sizeof(t_phi));
 	(*phi)->id = i;
 	(*phi)->p_meals = 0;
-	(*phi)->p_doa = 1;
 	(*phi)->data = data;
 	(*phi)->next = NULL;
 	(*phi)->l_f = NULL;
@@ -64,7 +58,6 @@ void	make_philos(t_phi **phi, t_data *data)
 		current = current->next;
 		current->id = i;
 		(*phi)->p_meals = 0;
-		(*phi)->p_doa = 1;
 		current->data = data;
 		current->next = NULL;
 	}
@@ -75,8 +68,6 @@ void	make_philos(t_phi **phi, t_data *data)
 	}
 	else
 		init_death_t(*phi);
-
-
 }
 
 void	init_forks(t_phi *phi)
@@ -99,8 +90,6 @@ void	init_forks(t_phi *phi)
 	}
 	if 	(t_phi != NULL)
 		first->l_f = prev->r_f;
-	printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-	printf("id = %d\n", t_phi->id);
 	init_death_t(phi);
 }
 void    init_death_t(t_phi *phi)
@@ -112,7 +101,6 @@ void    init_death_t(t_phi *phi)
 	first = NULL;
 	while(phi != first)
 	{
-			printf("\n%ld\n", time);
 		phi->death_t = time;
 		phi->p_meals = 0; 
 		if(!first)

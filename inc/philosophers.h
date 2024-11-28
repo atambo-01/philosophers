@@ -26,7 +26,6 @@ typedef struct s_data	t_data;
 
 typedef struct s_data
 {
-    atomic_int		print;
 	atomic_int		run;
 	atomic_long		start;
 	unsigned int	phi_n;
@@ -40,7 +39,6 @@ typedef struct s_phi
 {
 	int				id;
 	unsigned int	p_meals;
-	unsigned int	p_doa;
 	t_data			*data;
 	t_phi			*next;
 	pthread_mutex_t	*r_f;
@@ -50,7 +48,6 @@ typedef struct s_phi
 }	t_phi;
 
 //init_philos.c
-void	end_sim(void);
 void	data_init(char **av, t_data *data);
 void	make_philos(t_phi **phi, t_data *data);
 void	init_forks(t_phi *phi);
@@ -65,7 +62,7 @@ void	free_phi(t_phi **phi);
 //routine_utils.c
 void 	check_philos(t_phi *phi);
 void    ft_mutex_printf(t_phi *phi, char *str);
-void	ft_lock_forks(t_phi *phi, int i);
+void	ft_mutex_forks(t_phi *phi, int i);
 void	set_death_t(t_phi *phi);
 
 //routine.c

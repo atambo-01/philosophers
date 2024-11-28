@@ -16,31 +16,18 @@
 
 void   *is_eating(t_phi *phi)
 {   
-	if (!phi->data->run)
-        return (NULL);
-    if (!phi->r_f || !phi->l_f)
+	if (!phi->data->run || !phi->r_f || !phi->l_f)
         return (NULL);
     if(phi->id % 2 == 0)
-    {
-		// ft_lock_forks(phi, 1);
-		pthread_mutex_lock(phi->l_f);
-		ft_mutex_printf(phi, "has taken a fork\n");
-		pthread_mutex_lock(phi->r_f);
-		ft_mutex_printf(phi, "has taken a fork\n");
-    }
+		ft_mutex_forks(phi, 1);
+
     else
-    {
-		// ft_lock_forks(phi, 2);
-		pthread_mutex_lock(phi->r_f);
-		ft_mutex_printf(phi, "has taken a fork\n");
-		pthread_mutex_lock(phi->l_f);
-		ft_mutex_printf(phi, "has taken a fork\n");
-    }
+		ft_mutex_forks(phi, 2);
+	phi->death_t = ft_get_msec() + phi->data->ttd;
     ft_mutex_printf(phi, "is eating\n");
     usleep(phi->data->tte * 1000);
-	// ft_lock_forks(phi, -1);
-	pthread_mutex_unlock(phi->l_f);
-	pthread_mutex_unlock(phi->r_f);
+	ft_mutex_forks(phi, -1);
+	phi->p_meals += 1;
     is_thinking(phi);
 }
 
