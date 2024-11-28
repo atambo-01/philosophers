@@ -41,8 +41,7 @@ int main(int ac, char **av)
 			if (phi->next)
 				phi = phi->next;
 		}
-		while(data.run)
-			check_philos(phi);
+		check_philos(phi);
         first = NULL;
 		while(phi != first)
 		{

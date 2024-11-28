@@ -17,21 +17,17 @@
 void 	check_philos(t_phi *phi)
 {
 	long	curr;
-	t_phi	*first;
 
-	first = NULL;
-	curr = ft_get_msec();
-	while(phi != first)
+	while(phi->data->run)
 	{
+		curr = ft_get_msec();
 		if (curr >= phi->death_t)
 		{
 			ft_mutex_printf(phi, "has died\n");
 			phi->data->run = 0;
 		}
-		if (phi->p_meals >= phi->data->e_min)
+		else if (phi->data->e_min > 0 && phi->p_meals >= phi->data->e_min)
 			phi->data->run = 0;
-		if (!first)
-			first = phi;
 		if (phi->next)
 			phi = phi->next;
 	}

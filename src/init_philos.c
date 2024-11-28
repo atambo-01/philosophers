@@ -36,6 +36,8 @@ void	data_init(char **av, t_data *data)
 		if (data->phi_n <= 0)
 			data->run = 0;
 	}
+	else
+		data->e_min = -1;
 	data->start = ft_get_msec();
 }
 void	make_philos(t_phi **phi, t_data *data)

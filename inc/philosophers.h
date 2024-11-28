@@ -32,13 +32,13 @@ typedef struct s_data
 	unsigned int	ttd;
 	unsigned int	tte;
 	unsigned int	tts;
-	unsigned int	e_min;
+	int	e_min;
 }	t_data;
 
 typedef struct s_phi
 {
 	int				id;
-	unsigned int	p_meals;
+	int				p_meals;
 	t_data			*data;
 	t_phi			*next;
 	pthread_mutex_t	*r_f;
