@@ -12,79 +12,64 @@
 
 #include "../inc/philosophers.h"
 
-void	main_loop(t_phi *phi)
+void	check_philos(t_phi *phi)
 {
 	t_phi	*first;
+	int		count;
 
+	if (phi->data->run == 0)
+		return ;
+	if (ft_get_msec() >= phi->death_t)
+	{
+		phi->data->run = 0;
+		ft_mutex_printf(phi, "has died\n", 1);
+	}
 	first = NULL;
 	while (phi != first)
 	{
-		if (pthread_create(&(phi->thread), NULL, routine, (phi)) != 0)
-		{
-			perror("Failed to create thread");
-			return ;
-		}
+		if (phi->data->e_min > 0 && phi->p_meals >= phi->data->e_min)
+			count++;
 		if (!first)
 			first = phi;
 		if (phi->next)
 			phi = phi->next;
 	}
-	first = NULL;
-	while (phi != first)
-	{
-		pthread_join(phi->thread, NULL);
-		if (!first)
-			first = phi;
-		if (phi->next)
-			phi = phi->next;
-	}
+	if (count == phi->data->phi_n)
+		phi->data->run = 0;
 }
 
-void	*is_eating(t_phi *phi)
+void	is_eating(t_phi *phi)
 {
-	check_philos(phi);
 	if (!phi->data->run)
-		return (NULL);
+		return ;
 	if (phi->l_f == NULL)
 	{
-		pthread_mutex_lock(phi->r_f);
-		ft_mutex_printf(phi, "has taken a fork\n");
+		single_phi(phi);
+		return ;
 	}
-	else if (phi->id % 2 == 0)
-		ft_mutex_forks(phi, 1);
-	else
-		ft_mutex_forks(phi, 2);
+	ft_mutex_lforks(phi);
 	phi->death_t = ft_get_msec() + phi->data->ttd;
-	if (phi->l_f != NULL)
-		ft_mutex_printf(phi, "is eating\n");
-	usleep(phi->data->tte * 1000);
-	if (phi->l_f == NULL)
-		pthread_mutex_unlock(phi->r_f);
-	else
-		ft_mutex_forks(phi, -1);
-	check_philos(phi);
-	is_thinking(phi);
-}
-
-void	*is_thinking(t_phi *phi)
-{
-	check_philos(phi);
-	if (!phi->data->run)
-		return (NULL);
 	phi->p_meals += 1;
-	ft_mutex_printf(phi, "is thinkig\n");
-	check_philos(phi);
+	ft_mutex_printf(phi, "is  eating\n", 0);
+	usleep(phi->data->tte * 1000);
+	ft_mutex_uforks(phi);
 	is_sleeping(phi);
 }
 
-void	*is_sleeping(t_phi *phi)
+void	is_sleeping(t_phi *phi)
 {
-	check_philos(phi);
 	if (!phi->data->run)
-		return (NULL);
-	ft_mutex_printf(phi, "is sleeping\n");
+		return ;
+	ft_mutex_printf(phi, "is  sleeping\n", 0);
 	usleep(phi->data->tts);
-	check_philos(phi);
+	is_thinking(phi);
+}
+
+void	is_thinking(t_phi *phi)
+{
+	if (!phi->data->run)
+		return ;
+	ft_mutex_printf(phi, "is  thinkig\n", 0);
 	is_eating(phi);
 }
 
@@ -93,5 +78,8 @@ void	*routine(void *args)
 	t_phi	*phi;
 
 	phi = (t_phi *)args;
-	is_eating(phi);
+	if (phi->id % 2 == 0)
+		usleep(1000);
+	is_thinking(phi);
+	return (NULL);
 }

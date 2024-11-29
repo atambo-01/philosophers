@@ -27,6 +27,7 @@ typedef struct s_data	t_data;
 typedef struct s_data
 {
 	atomic_int		run;
+	pthread_mutex_t	print;
 	atomic_long		start;
 	atomic_int		phi_n;
 	atomic_int		meals;
@@ -45,11 +46,13 @@ typedef struct s_phi
 	pthread_mutex_t	*r_f;
 	pthread_mutex_t	*l_f;
 	atomic_long		death_t;
+	atomic_long		last_meal;
 	pthread_t		thread;
 }	t_phi;
 
-//init_philos.c
+//inits.c
 void	data_init(char **av, t_data *data);
+// static void	make_philos_02(t_phi **phi, t_data *data, int i);
 void	make_philos(t_phi **phi, t_data *data);
 void	init_forks(t_phi *phi);
 void	init_death_t(t_phi *phi);
@@ -60,23 +63,27 @@ void	ft_free(void **ptr);
 void	*ft_malloc(size_t size);
 
 //routine_utils.c
-void	check_philos(t_phi *phi);
-void	ft_mutex_printf(t_phi *phi, char *str);
-void	ft_mutex_forks(t_phi *phi, int i);
+void	ft_mutex_printf(t_phi *phi, char *str, int i);
+void	ft_mutex_lforks(t_phi *phi);
+void	ft_mutex_uforks(t_phi *phi);
+void	single_phi(t_phi *phi);
 
 //routine.c
-void	main_loop(t_phi *phi);
-void	*is_eating(t_phi *phi);
-void	*is_thinking(t_phi *phi);
-void	*is_sleeping(t_phi *phi);
+void	check_philos(t_phi *phi);
+void	is_eating(t_phi *phi);
+void	is_sleeping(t_phi *phi);
+void	is_thinking(t_phi *phi);
 void	*routine(void *args);
+
+//threads.c
+// void	create_threads(t_phi *phi);
+// void	join_threads(t_phi *phi);
+void	main_loop(t_phi *phi);
 
 //utils.c
 long	ft_get_msec(void);
 //static void	free_forks(t_phi **phi);
 void	free_phi(t_phi **phi);
-void	ft_free(void **ptr);
-void	*ft_malloc(size_t size);
 
 //extra.c
 void	print_data(t_data *data);

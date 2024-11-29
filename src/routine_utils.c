@@ -12,65 +12,48 @@
 
 #include "../inc/philosophers.h"
 
-void	check_philos(t_phi *phi)
+void	ft_mutex_printf(t_phi *phi, char *str, int i)
 {
-	long			curr;
-	t_phi			*first;
-	unsigned int	count;
+	long	time;
 
-	curr = ft_get_msec();
-	if (curr >= phi->death_t)
-	{
-		ft_mutex_printf(phi, "has died\n");
-		phi->data->run = 0;
-	}
-	first = NULL;
-	while (phi != first)
-	{
-		if (phi->data->e_min > 0 && phi->p_meals >= phi->data->e_min)
-			count++;
-		if (!first)
-			first = phi;
-		if (phi->next)
-			phi = phi->next;
-	}
-	if (count == phi->data->phi_n)
-		phi->data->run = 0;
-}
-
-void	ft_mutex_printf(t_phi *phi, char *str)
-{
-	long			time;
-	pthread_mutex_t	print;
-
-	if (!phi->data->run)
+	if (phi->data->run == 0 && i == 0)
 		return ;
 	time = ft_get_msec() - phi->data->start;
-	pthread_mutex_init(&print, NULL);
-	pthread_mutex_lock(&print);
-	printf("%06ld\t%d %s", time, phi->id, str);
-	pthread_mutex_unlock(&print);
+	pthread_mutex_lock(&(phi->data->print));
+	printf("%06ld %3d  %s", time, phi->id, str);
+	pthread_mutex_unlock(&(phi->data->print));
 }
 
-void	ft_mutex_forks(t_phi *phi, int i)
+void	ft_mutex_lforks(t_phi *phi)
 {
-	if (i == 1)
-	{
-		pthread_mutex_lock(phi->l_f);
-		ft_mutex_printf(phi, "has taken a fork\n");
-		pthread_mutex_lock(phi->r_f);
-		ft_mutex_printf(phi, "has taken a fork\n");
-	}
-	else if (i == 2)
+	if (phi->id != phi->data->phi_n)
 	{
 		pthread_mutex_lock(phi->r_f);
-		ft_mutex_printf(phi, "has taken a fork\n");
+		ft_mutex_printf(phi, "has taken a fork\n", 0);
 		pthread_mutex_lock(phi->l_f);
-		ft_mutex_printf(phi, "has taken a fork\n");
+		ft_mutex_printf(phi, "has taken a fork\n", 0);
 	}
-	else if (i == -1)
+	else
 	{
-		pthread_mutex_unlock(phi->l_f);
-		pthread_mutex_unlock(phi->r_f);
+		pthread_mutex_lock(phi->l_f);
+		ft_mutex_printf(phi, "has taken a fork\n", 0);
+		pthread_mutex_lock(phi->r_f);
+		ft_mutex_printf(phi, "has taken a fork\n", 0);
+	}
+}
+
+void	ft_mutex_uforks(t_phi *phi)
+{
+	pthread_mutex_unlock(phi->l_f);
+	pthread_mutex_unlock(phi->r_f);
+}
+
+void	single_phi(t_phi *phi)
+{
+	pthread_mutex_lock(phi->r_f);
+	ft_mutex_printf(phi, "has taken a fork\n", 0);
+	while (phi->data->run)
+	{
+		check_philos(phi);
 	}
 }

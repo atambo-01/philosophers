@@ -11,15 +11,16 @@
 # **************************************************************************** #
 
 SOURCES         =	src/main.c \
-					src/init_philos.c \
+					src/inits.c \
 					src/utils.c \
 					src/routine.c \
 					src/routine_utils.c \
 					src/libft.c \
+					src/threads.c \
 					src/extra.c \
 			
-CC              = cc
-CFLAGS          =  -g -pthread
+CC              = cc -fsanitize=thread
+CFLAGS          = -Wall -Wextra -Werror -g -pthread
 NAME            = philosophers
 OBJS            = $(SOURCES:.c=.o)
 INCLUDES        = -Iincludes

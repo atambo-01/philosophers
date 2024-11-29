@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_philos.c                                      :+:      :+:    :+:   */
+/*   inits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atambo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 15:41:27 by atambo            #+#    #+#             */
-/*   Updated: 2024/11/20 15:41:28 by atambo           ###   ########.fr       */
+/*   Created: 2024/11/30 00:21:20 by atambo            #+#    #+#             */
+/*   Updated: 2024/11/30 00:21:23 by atambo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	data_init(char **av, t_data *data)
 	else
 		data->e_min = -1;
 	data->start = ft_get_msec();
+	pthread_mutex_init(&(data->print), NULL);
 }
 
 static void	make_philos_02(t_phi **phi, t_data *data, int i)
@@ -100,12 +101,15 @@ void	init_death_t(t_phi *phi)
 {
 	t_phi	*first;
 	long	time;
+	long	time_2;
 
 	time = phi->data->start + phi->data->ttd;
+	time_2 = phi->data->start;
 	first = NULL;
 	while (phi != first)
 	{
 		phi->death_t = time;
+		phi->last_meal = time_2;
 		phi->p_meals = 0;
 		if (!first)
 			first = phi;
