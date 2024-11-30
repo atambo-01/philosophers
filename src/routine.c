@@ -17,6 +17,7 @@ void	check_philos(t_phi *phi)
 	t_phi	*first;
 	int		count;
 
+	count = 0;
 	if (phi->data->run == 0)
 		return ;
 	if (ft_get_msec() >= phi->death_t)

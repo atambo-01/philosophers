@@ -48,6 +48,8 @@ void	main_loop(t_phi *phi)
 {
 	create_threads(phi);
 	while (phi->data->run == 1)
+	{
 		check_philos(phi);
+	}
 	join_threads(phi);
 }
