@@ -84,6 +84,8 @@ void	main_loop(t_phi *phi);
 long	ft_get_msec(void);
 //static void	free_forks(t_phi **phi);
 void	free_phi(t_phi **phi);
+void	ft_msleep(long time, t_phi *phi);
+
 
 //extra.c
 void	print_data(t_data *data);

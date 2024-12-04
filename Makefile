@@ -19,7 +19,7 @@ SOURCES         =	src/main.c \
 					src/threads.c \
 					src/extra.c \
 			
-CC              = cc -fsanitize=thread
+CC              = cc
 CFLAGS          = -Wall -Wextra -Werror -g -pthread
 NAME            = philosophers
 OBJS            = $(SOURCES:.c=.o)

@@ -12,7 +12,7 @@
 
 #include "../inc/philosophers.h"
 
-void	create_threads(t_phi *phi)
+static void	create_threads(t_phi *phi)
 {
 	t_phi	*first;
 
@@ -26,11 +26,12 @@ void	create_threads(t_phi *phi)
 		}
 		if (!first)
 			first = phi;
-		phi = phi->next;
+		if (phi->next)
+			phi = phi->next;
 	}
 }
 
-void	join_threads(t_phi *phi)
+static void	join_threads(t_phi *phi)
 {
 	t_phi	*first;
 
@@ -46,8 +47,15 @@ void	join_threads(t_phi *phi)
 
 void	main_loop(t_phi *phi)
 {
+	if (phi->l_f == NULL)
+	{
+		single_phi(phi);
+		return ;
+	}
 	create_threads(phi);
 	while (phi->data->run == 1)
+	{
 		check_philos(phi);
+	}
 	join_threads(phi);
 }

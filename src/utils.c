@@ -62,3 +62,16 @@ void	free_phi(t_phi **phi)
 	}
 	*phi = NULL;
 }
+
+void	ft_msleep(long time, t_phi *phi)
+{
+	long start;
+
+	start = ft_get_msec();
+	time += start;
+	while(1)
+	{
+		if ( ft_get_msec() >= time || phi->data->run == 0)
+			return;
+	}
+}

@@ -17,6 +17,7 @@ void	check_philos(t_phi *phi)
 	t_phi	*first;
 	int		count;
 
+	count = 0;
 	if (phi->data->run == 0)
 		return ;
 	if (ft_get_msec() >= phi->death_t)
@@ -27,7 +28,7 @@ void	check_philos(t_phi *phi)
 	first = NULL;
 	while (phi != first)
 	{
-		if (phi->data->e_min > 0 && phi->p_meals >= phi->data->e_min)
+		if (phi->data->e_min > -1 && phi->p_meals >= phi->data->e_min)
 			count++;
 		if (!first)
 			first = phi;
@@ -42,16 +43,11 @@ void	is_eating(t_phi *phi)
 {
 	if (!phi->data->run)
 		return ;
-	if (phi->l_f == NULL)
-	{
-		single_phi(phi);
-		return ;
-	}
 	ft_mutex_lforks(phi);
 	phi->death_t = ft_get_msec() + phi->data->ttd;
 	phi->p_meals += 1;
 	ft_mutex_printf(phi, "is  eating\n", 0);
-	usleep(phi->data->tte * 1000);
+	ft_msleep(phi->data->tte, phi);
 	ft_mutex_uforks(phi);
 	is_sleeping(phi);
 }
@@ -61,7 +57,7 @@ void	is_sleeping(t_phi *phi)
 	if (!phi->data->run)
 		return ;
 	ft_mutex_printf(phi, "is  sleeping\n", 0);
-	usleep(phi->data->tts);
+	ft_msleep(phi->data->tts, phi);
 	is_thinking(phi);
 }
 
