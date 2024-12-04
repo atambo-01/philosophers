@@ -53,7 +53,7 @@ void	make_philos(t_phi **phi, t_data *data)
 	t_phi	*current;
 
 	i = 1;
-	(*phi) = ft_malloc(sizeof(t_phi));
+	(*phi) = ft_malloc(sizeof(t_phi) * 1);
 	current = *phi;
 	make_philos_02(phi, data, i);
 	(*phi)->l_f = NULL;
