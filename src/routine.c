@@ -43,11 +43,6 @@ void	is_eating(t_phi *phi)
 {
 	if (!phi->data->run)
 		return ;
-	if (phi->l_f == NULL)
-	{
-		single_phi(phi);
-		return ;
-	}
 	ft_mutex_lforks(phi);
 	phi->death_t = ft_get_msec() + phi->data->ttd;
 	phi->p_meals += 1;

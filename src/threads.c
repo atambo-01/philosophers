@@ -26,7 +26,8 @@ void	create_threads(t_phi *phi)
 		}
 		if (!first)
 			first = phi;
-		phi = phi->next;
+		if (phi->next)
+			phi = phi->next;
 	}
 }
 
@@ -46,6 +47,11 @@ void	join_threads(t_phi *phi)
 
 void	main_loop(t_phi *phi)
 {
+	if (phi->l_f == NULL)
+	{
+		single_phi(phi);
+		return ;
+	}
 	create_threads(phi);
 	while (phi->data->run == 1)
 	{
