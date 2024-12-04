@@ -12,7 +12,7 @@
 
 #include "../inc/philosophers.h"
 
-void	create_threads(t_phi *phi)
+static void	create_threads(t_phi *phi)
 {
 	t_phi	*first;
 
@@ -31,7 +31,7 @@ void	create_threads(t_phi *phi)
 	}
 }
 
-void	join_threads(t_phi *phi)
+static void	join_threads(t_phi *phi)
 {
 	t_phi	*first;
 

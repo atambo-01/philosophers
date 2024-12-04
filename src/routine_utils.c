@@ -56,4 +56,5 @@ void	single_phi(t_phi *phi)
 	{
 		check_philos(phi);
 	}
+	pthread_mutex_unlock(phi->r_f);
 }
