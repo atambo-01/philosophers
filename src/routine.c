@@ -28,7 +28,7 @@ void	check_philos(t_phi *phi)
 	first = NULL;
 	while (phi != first)
 	{
-		if (phi->data->e_min > 0 && phi->p_meals >= phi->data->e_min)
+		if (phi->data->e_min > -1 && phi->p_meals >= phi->data->e_min)
 			count++;
 		if (!first)
 			first = phi;
