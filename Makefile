@@ -53,5 +53,3 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all submake clean fclean re
-

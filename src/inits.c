@@ -21,8 +21,8 @@ void	data_init(char **av, t_data *data)
 		data->ttd = ft_atoi(av[2]);
 		data->tte = ft_atoi(av[3]);
 		data->tts = ft_atoi(av[4]);
-		if (data->phi_n <= 0 || data->ttd <= 0 || data->tte <= 0
-			|| data->tts <= 0)
+		if (data->phi_n <= 0 || data->ttd <= 0 
+			|| data->tte <= 0 || data->tts <= 0)
 			data->run = 0;
 	}
 	else
@@ -30,13 +30,15 @@ void	data_init(char **av, t_data *data)
 	if (av[5])
 	{	
 		data->e_min = ft_atoi(av[5]);
-		if (data->phi_n <= 0)
+		if (data->e_min <= 0)
 			data->run = 0;
 	}
 	else
 		data->e_min = -1;
 	data->start = ft_get_msec();
 	pthread_mutex_init(&(data->print), NULL);
+	if (data->run == 0)
+		ft_error("Error. Use positive integers.", 1);
 }
 
 static void	make_philos_02(t_phi **phi, t_data *data, int i)

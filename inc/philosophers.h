@@ -61,6 +61,9 @@ void	init_death_t(t_phi *phi);
 int		ft_atoi(const char *nptr);
 void	ft_free(void **ptr);
 void	*ft_malloc(size_t size);
+int		ft_error(char *msg, int e);
+int		ft_strlen(char const *str);
+int		ft_strcmp(const char *s1, const char *s2);
 
 //routine_utils.c
 void	ft_mutex_printf(t_phi *phi, char *str, int i);
@@ -85,7 +88,7 @@ long	ft_get_msec(void);
 //static void	free_forks(t_phi **phi);
 void	free_phi(t_phi **phi);
 void	ft_msleep(long time, t_phi *phi);
-
+int		ft_pre_atoi(char *str);
 
 //extra.c
 void	print_data(t_data *data);

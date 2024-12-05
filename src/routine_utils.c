@@ -18,8 +18,8 @@ void	ft_mutex_printf(t_phi *phi, char *str, int i)
 
 	if (phi->data->run == 0 && i == 0)
 		return ;
-	time = ft_get_msec() - phi->data->start;
 	pthread_mutex_lock(&(phi->data->print));
+	time = ft_get_msec() - phi->data->start;
 	printf("%06ld %3d  %s", time, phi->id, str);
 	pthread_mutex_unlock(&(phi->data->print));
 }

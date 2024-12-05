@@ -76,6 +76,6 @@ void	*routine(void *args)
 	phi = (t_phi *)args;
 	if (phi->id % 2 == 0)
 		usleep(1000);
-	is_thinking(phi);
+	is_eating(phi);
 	return (NULL);
 }
