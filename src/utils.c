@@ -22,57 +22,16 @@ long	ft_get_msec(void)
 	return (msec);
 }
 
-static void	free_forks(t_phi **phi)
-{
-	t_phi	*current;
-	t_phi	*first;
-
-	if (!phi || !*phi)
-		return ;
-	current = *phi;
-	first = *phi;
-	while (current)
-	{
-		current->l_f = NULL;
-		ft_free((void **)&(current->r_f));
-		if (current->next == first)
-			break ;
-		current = current->next;
-	}
-}
-
-void	free_phi(t_phi **phi)
-{
-	t_phi	*current;
-	t_phi	*next;
-	t_phi	*first;
-
-	if (!phi || !*phi)
-		return ;
-	free_forks(phi);
-	current = *phi;
-	first = *phi;
-	while (current)
-	{
-		next = current->next;
-		ft_free((void **)&current);
-		if (next == first)
-			break ;
-		current = next;
-	}
-	*phi = NULL;
-}
-
 void	ft_msleep(long time, t_phi *phi)
 {
-	long start;
+	long	start;
 
 	start = ft_get_msec();
 	time += start;
-	while(1)
+	while (1)
 	{
-		if ( ft_get_msec() >= time || phi->data->run == 0)
-			return;
+		if (ft_get_msec() >= time || phi->data->run == 0)
+			return ;
 	}
 }
 
@@ -93,38 +52,37 @@ static int	check_limits(const char *start, int sign)
 	{
 		if ((sign > 0 && ft_strcmp(start, i_max) > 0)
 			|| (sign < 0 && ft_strcmp(start, i_min) > 0))
-			{
-				return (0);
-			}
+		{
+			return (0);
+		}
 	}
 	return (1);
 }
 
-int		ft_pre_atoi(char *str)
+int	ft_pre_atoi(char *str)
 {
-	int	sign;
-	char *start;
+	int		sign;
+	char	*start;
 
 	sign = 1;
 	if (str == NULL)
-		return(0);
-	while(*str == ' ' || *str == '\t')
+		return (0);
+	while (*str == ' ' || *str == '\t')
 		str++;
-	if ( *str == '-' || *str == '+')
+	if (*str == '-' || *str == '+')
 	{
 		if (*str == '-')
 			sign = -1;
 		str++;
 	}
-	while(*str == '0')
+	while (*str == '0')
 		str++;
 	start = str;
-	while(*str)
+	while (*str)
 	{
 		if (*str < '0' || *str > '9')
-			return(0);
+			return (0);
 		str++;
 	}
-	return(check_limits(start, sign));
+	return (check_limits(start, sign));
 }
-

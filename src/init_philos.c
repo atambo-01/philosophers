@@ -14,13 +14,13 @@
 
 void	init_forks(t_phi *phi)
 {
-	t_phi *prev;
-	t_phi *first;
+	t_phi	*prev;
+	t_phi	*first;
 
 	first = phi;
 	prev = phi;
 	phi = phi->next;
-	while(phi != first)
+	while (phi != first)
 	{
 		phi->l_f = prev->r_f;
 		phi->r_f = ft_malloc(sizeof(pthread_mutex_t));
@@ -28,23 +28,24 @@ void	init_forks(t_phi *phi)
 		prev = phi;
 		phi = phi->next;
 	}
-	if ( phi != NULL)
+	if (phi != NULL)
 		first->l_f = prev->r_f;
 	init_death_t(phi);
 }
-void    init_death_t(t_phi *phi)
+
+void	init_death_t(t_phi *phi)
 {
 	t_phi	*first;
 	long	time;
 
 	time = phi->data->start + phi->data->ttd;
 	first = NULL;
-	while(phi != first)
+	while (phi != first)
 	{
-			printf("\n%ld\n", time);
+		printf("\n%ld\n", time);
 		phi->death_t = time;
-		phi->p_meals = 0; 
-		if(!first)
+		phi->p_meals = 0;
+		if (!first)
 			first = phi;
 		if (phi->next)
 			phi = phi->next;

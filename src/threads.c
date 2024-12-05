@@ -59,3 +59,44 @@ void	main_loop(t_phi *phi)
 	}
 	join_threads(phi);
 }
+
+static void	free_forks(t_phi **phi)
+{
+	t_phi	*current;
+	t_phi	*first;
+
+	if (!phi || !*phi)
+		return ;
+	current = *phi;
+	first = *phi;
+	while (current)
+	{
+		current->l_f = NULL;
+		ft_free((void **)&(current->r_f));
+		if (current->next == first)
+			break ;
+		current = current->next;
+	}
+}
+
+void	free_phi(t_phi **phi)
+{
+	t_phi	*current;
+	t_phi	*next;
+	t_phi	*first;
+
+	if (!phi || !*phi)
+		return ;
+	free_forks(phi);
+	current = *phi;
+	first = *phi;
+	while (current)
+	{
+		next = current->next;
+		ft_free((void **)&current);
+		if (next == first)
+			break ;
+		current = next;
+	}
+	*phi = NULL;
+}

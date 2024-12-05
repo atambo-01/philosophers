@@ -62,6 +62,8 @@ int		ft_atoi(const char *nptr);
 void	ft_free(void **ptr);
 void	*ft_malloc(size_t size);
 int		ft_error(char *msg, int e);
+
+//str.c
 int		ft_strlen(char const *str);
 int		ft_strcmp(const char *s1, const char *s2);
 
@@ -82,11 +84,11 @@ void	*routine(void *args);
 // void	create_threads(t_phi *phi);
 // void	join_threads(t_phi *phi);
 void	main_loop(t_phi *phi);
+//static void	free_forks(t_phi **phi);
+void	free_phi(t_phi **phi);
 
 //utils.c
 long	ft_get_msec(void);
-//static void	free_forks(t_phi **phi);
-void	free_phi(t_phi **phi);
 void	ft_msleep(long time, t_phi *phi);
 int		ft_pre_atoi(char *str);
 

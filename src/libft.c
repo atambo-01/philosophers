@@ -64,27 +64,5 @@ int	ft_error(char *msg, int e)
 {
 	write(2, msg, ft_strlen(msg));
 	write(2, "\n", 1);
-	return(e);
-}
-
-int	ft_strlen(char const *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2)
-	{
-		if (*s1 != *s2)
-			return (*s1 - *s2);
-		s1++;
-		s2++;
-	}
-	return (0);
+	return (e);
 }

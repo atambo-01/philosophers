@@ -21,7 +21,7 @@ void	data_init(char **av, t_data *data)
 		data->ttd = ft_atoi(av[2]);
 		data->tte = ft_atoi(av[3]);
 		data->tts = ft_atoi(av[4]);
-		if (data->phi_n <= 0 || data->ttd <= 0 
+		if (data->phi_n <= 0 || data->ttd <= 0
 			|| data->tte <= 0 || data->tts <= 0)
 			data->run = 0;
 	}

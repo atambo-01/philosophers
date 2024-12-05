@@ -10,6 +10,14 @@
 #                                                                              #
 # **************************************************************************** #
 
+
+			
+CC              = cc
+CFLAGS          = -Wall -Wextra -Werror -g -pthread
+NAME            = philosophers
+OBJS            = $(SOURCES:.c=.o)
+INCLUDES        = -Iincludes
+
 SOURCES         =	src/main.c \
 					src/inits.c \
 					src/utils.c \
@@ -18,38 +26,20 @@ SOURCES         =	src/main.c \
 					src/libft.c \
 					src/threads.c \
 					src/extra.c \
-			
-CC              = cc
-CFLAGS          = -Wall -Wextra -Werror -g -pthread
-NAME            = philosophers
-OBJS            = $(SOURCES:.c=.o)
-INCLUDES        = -Iincludes
-
-SUBDIRS         =
-
-LIBS            =
-
-all: submake $(NAME)
-
-submake:
-	@for dir in $(SUBDIRS); do \
-		$(MAKE) -C $$dir; \
-	done
+					src/str.c \
+					
+all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME) $(LIBS)
 
 clean:
 	rm -f $(OBJS)
-	@for dir in $(SUBDIRS); do \
-		$(MAKE) -C $$dir clean; \
-	done
 
 fclean: clean
 	rm -f $(NAME)
-	@for dir in $(SUBDIRS); do \
-		$(MAKE) -C $$dir fclean; \
-	done
 
 re: fclean all
+
+#hello
 
