@@ -14,7 +14,7 @@
 			
 CC              = cc
 CFLAGS          = -Wall -Wextra -Werror -g -pthread
-NAME            = philosophers
+NAME            = philo
 OBJS            = $(SOURCES:.c=.o)
 INCLUDES        = -Iincludes
 

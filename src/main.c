@@ -25,8 +25,8 @@ int	main(int ac, char **av)
 		{
 			if (ft_pre_atoi(av[i]) == 0)
 			{
-				(ft_error("Error.\nBad formating, use decimal numbers.", 1));
-				return (ft_error("Use decimals that fit in an int.", 1));
+				(ft_error("Error.\nBad formating, use decimal numbers.\n", 1));
+				return (ft_error("Use decimals that fit in an int.\n", 1));
 			}
 			i++;
 		}
@@ -38,5 +38,5 @@ int	main(int ac, char **av)
 		return (0);
 	}
 	else
-		return (ft_error("Error.\nInsuficient params need 5 or 6.", 1));
+		return (ft_error("Error.\nInsuficient params need 5 or 6.\n", 1));
 }

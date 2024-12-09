@@ -38,7 +38,7 @@ void	data_init(char **av, t_data *data)
 	data->start = ft_get_msec();
 	pthread_mutex_init(&(data->print), NULL);
 	if (data->run == 0)
-		ft_error("Error. Use positive integers.", 1);
+		ft_error("Error.\nUse only positive integers.\n", 1);
 }
 
 static void	make_philos_02(t_phi **phi, t_data *data, int i)

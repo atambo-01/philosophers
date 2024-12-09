@@ -54,7 +54,7 @@ void	*ft_malloc(size_t size)
 	ptr = malloc(size);
 	if (!ptr)
 	{
-		ft_error("Error.Bad allocation - ft_malloc.", 1);
+		ft_error("Error.Bad allocation - ft_malloc.\n", 1);
 		exit(1);
 	}
 	return (ptr);
@@ -63,6 +63,5 @@ void	*ft_malloc(size_t size)
 int	ft_error(char *msg, int e)
 {
 	write(2, msg, ft_strlen(msg));
-	write(2, "\n", 1);
 	return (e);
 }
