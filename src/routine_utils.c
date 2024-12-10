@@ -16,11 +16,14 @@ void	ft_mutex_printf(t_phi *phi, char *str, int i)
 {
 	long	time;
 
-	if (phi->data->run == 0 && i == 0)
-		return ;
 	pthread_mutex_lock(&(phi->data->print));
+	if (phi->data->run == 0 && i == 0)
+	{
+		pthread_mutex_unlock(&(phi->data->print));
+		return ;
+	}
 	time = ft_get_msec() - phi->data->start;
-	printf("%06ld %3d  %s", time, phi->id, str);
+	printf("% 6ld %3d  %s", time, phi->id, str);
 	pthread_mutex_unlock(&(phi->data->print));
 }
 

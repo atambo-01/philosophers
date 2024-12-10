@@ -56,6 +56,7 @@ void	main_loop(t_phi *phi)
 	while (phi->data->run == 1)
 	{
 		check_philos(phi);
+		usleep(2000);
 	}
 	join_threads(phi);
 }

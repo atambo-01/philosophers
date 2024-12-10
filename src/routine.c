@@ -78,7 +78,7 @@ void	*routine(void *args)
 	t_phi	*phi;
 
 	phi = (t_phi *)args;
-	if (phi->id % 2 == 0)
+	if (phi->id % 2 == 0 && phi->data->phi_n > 2)
 		usleep(1000);
 	is_eating(phi);
 	return (NULL);

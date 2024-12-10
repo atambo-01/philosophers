@@ -10,13 +10,12 @@
 #                                                                              #
 # **************************************************************************** #
 
-#folders
+#default ignore all
+*
 
-#compiled source files
-*.a
-*.o
-*.out
-philosophers
-
-#vscode
-.vscode/
+#whitelist
+!src/
+!inc/
+!src/*.C
+!inc/*.h
+!Makefile
