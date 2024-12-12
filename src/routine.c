@@ -19,7 +19,6 @@ void	is_eating(t_phi *phi)
 	check_philos(phi);
 	ft_mutex_lforks(phi);
 	phi->death_t = ft_get_msec() + phi->data->ttd;
-	printf("death_date = % 6ld\n", phi->death_t - phi->data->start);
 	phi->p_meals += 1;
 	ft_mutex_printf(phi, "is  eating\n", 0);
 	ft_msleep(phi->data->tte, phi);
