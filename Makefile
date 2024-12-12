@@ -26,6 +26,7 @@ SOURCES         =	src/main.c \
 					src/libft.c \
 					src/threads.c \
 					src/extra.c \
+					src/checks.c \
 					src/str.c \
 					
 all: $(NAME)

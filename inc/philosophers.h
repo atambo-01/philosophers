@@ -74,6 +74,7 @@ void	ft_mutex_uforks(t_phi *phi);
 void	single_phi(t_phi *phi);
 
 //routine.c
+//static void	check_meals(t_phi *phi);
 void	check_philos(t_phi *phi);
 void	is_eating(t_phi *phi);
 void	is_sleeping(t_phi *phi);
