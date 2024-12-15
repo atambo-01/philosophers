@@ -16,7 +16,6 @@ void	is_eating(t_phi *phi)
 {
 	if (!phi->data->run)
 		return ;
-	check_philos(phi);
 	ft_mutex_lforks(phi);
 	phi->death_t = ft_get_msec() + phi->data->ttd;
 	phi->p_meals += 1;
@@ -30,7 +29,6 @@ void	is_sleeping(t_phi *phi)
 {
 	if (!phi->data->run)
 		return ;
-	check_philos(phi);
 	ft_mutex_printf(phi, "is  sleeping\n", 0);
 	ft_msleep(phi->data->tts, phi);
 	is_thinking(phi);
@@ -40,7 +38,6 @@ void	is_thinking(t_phi *phi)
 {
 	if (!phi->data->run)
 		return ;
-	check_philos(phi);
 	ft_mutex_printf(phi, "is  thinkig\n", 0);
 	is_eating(phi);
 }

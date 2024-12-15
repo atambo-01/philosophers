@@ -50,6 +50,10 @@ typedef struct s_phi
 	pthread_t		thread;
 }	t_phi;
 
+//checks.c
+//static void	check_meals(t_phi *phi);
+void	check_philos(t_phi *phi);
+
 //inits.c
 void	data_init(char **av, t_data *data);
 // static void	make_philos_02(t_phi **phi, t_data *data, int i);
@@ -74,8 +78,6 @@ void	ft_mutex_uforks(t_phi *phi);
 void	single_phi(t_phi *phi);
 
 //routine.c
-//static void	check_meals(t_phi *phi);
-void	check_philos(t_phi *phi);
 void	is_eating(t_phi *phi);
 void	is_sleeping(t_phi *phi);
 void	is_thinking(t_phi *phi);
